@@ -1,0 +1,29 @@
+Design patterns:
+    - game loop pattern:
+    - component pattern
+        -> spaceship
+        -> enemies
+        -> bullets
+        -> ability boxes
+    - state pattern:
+        -> game states (start, palying, game over)
+        -> enemy states (moving, shooting, destroyed)
+        -> bullet states (created, moving, hit something)
+    - factory pattern:
+        -> differen types of enemies
+        -> bullet variations
+        -> ability power-ups
+    - observer pattern:
+        -> tracking score
+        -> handling collisions
+        -> managing game events
+    - singleton pattern:
+        -> game manager
+        -> score keeper
+    - strategy pattern:
+        -> shooting strategies (single, triple)
+        -> movement strategies (straight down, zig-zag, diagonal)
+    - decorator pattern:
+        -> armour to enemy
+        -> speed boost 
+    

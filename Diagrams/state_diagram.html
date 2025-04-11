@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagramă de Stare - Space Invaders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .section-title {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin-top: -30px;
+            display: inline-block;
+        }
+        .state {
+            margin: 10px;
+            padding: 12px;
+            background-color: #ffffc0;
+            border: 2px solid #ff0000;
+            border-radius: 8px;
+            display: inline-block;
+            min-width: 120px;
+            text-align: center;
+        }
+        .arrow {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 20px;
+            margin: 0 5px;
+        }
+        .arrow:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ff0000;
+        }
+        .arrow:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-left: 10px solid #ff0000;
+            transform: translateY(-50%);
+        }
+        .arrow-down {
+            width: 20px;
+            height: 30px;
+            margin: 5px auto;
+        }
+        .arrow-down:after {
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+        }
+        .arrow-down:before {
+            top: auto;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 10px solid #ff0000;
+            border-bottom: none;
+        }
+        .condition {
+            font-style: italic;
+            font-size: 0.8em;
+            color: #555;
+            margin: 5px 0;
+        }
+        .subsection {
+            border: 1px dashed #aaa;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+        .col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .note {
+            background-color: #e3f2fd;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Diagramă de Stare - Space Invaders</h1>
+        
+        <!-- Main Flow -->
+        <div class="section">
+            <div class="section-title">Fluxul Principal</div>
+            <div class="row">
+                <div class="state">Start</div>
+                <div class="arrow"></div>
+                <div class="state">Start Game</div>
+                <div class="arrow"></div>
+                <div class="state">Initialize Game Elements</div>
+                <div class="arrow"></div>
+                <div class="state">Game Loop</div>
+                <div class="arrow"></div>
+                <div class="state">End Game</div>
+                <div class="arrow"></div>
+                <div class="state">Sfârșit</div>
+            </div>
+            <div class="note">
+                Notă: După End Game, se poate reveni la Start Game pentru un nou joc (Restart)
+            </div>
+        </div>
+        
+        <!-- Initialize Game Elements -->
+        <div class="section">
+            <div class="section-title">Inițializare Elemente Joc</div>
+            <div class="row">
+                <div class="col">
+                    <div class="state">Place Players</div>
+                </div>
+                <div class="col">
+                    <div class="state">Place Enemies</div>
+                </div>
+                <div class="col">
+                    <div class="state">Place Barriers</div>
+                </div>
+                <div class="col">
+                    <div class="state">Reset Score</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Game Loop -->
+        <div class="section">
+            <div class="section-title">Bucla Jocului</div>
+            <div class="row">
+                <div class="state">Process Input</div>
+                <div class="arrow"></div>
+                <div class="state">Update States</div>
+                <div class="arrow"></div>
+                <div class="state">Render Game</div>
+            </div>
+            <div class="arrow-down"></div>
+            <div class="condition">Următorul cadru</div>
+        </div>
+        
+        <!-- Process Input -->
+        <div class="section">
+            <div class="section-title">Procesare Input</div>
+            <div class="row">
+                <div class="col">
+                    <div class="state">Move Spaceship Horizontal</div>
+                </div>
+                <div class="col">
+                    <div class="state">Shoot</div>
+                </div>
+                <div class="col">
+                    <div class="state">Open Menu</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Update States -->
+        <div class="section">
+            <div class="section-title">Actualizare Stări</div>
+            <div class="row">
+                <div class="col">
+                    <div class="state">Update Enemies</div>
+                </div>
+                <div class="col">
+                    <div class="state">Update Bullets</div>
+                </div>
+                <div class="col">
+                    <div class="state">Update Collisions</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Enemy States -->
+        <div class="section">
+            <div class="section-title">Stări Inamici</div>
+            <div class="subsection">
+                <h3>Mișcare Grup Inamici</h3>
+                <div class="row">
+                    <div class="state">Move Horizontally</div>
+                    <div class="arrow"></div>
+                    <div class="state">Check Boundary</div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="condition">Nu atinge marginea</div>
+                        <div class="arrow-down"></div>
+                        <div class="state">Continue Horizontal</div>
+                    </div>
+                    <div class="col">
+                        <div class="condition">Atinge marginea</div>
+                        <div class="arrow-down"></div>
+                        <div class="state">Move Down</div>
+                        <div class="arrow"></div>
+                        <div class="state">Move Horizontally</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Viteza Inamicilor</h3>
+                <div class="row">
+                    <div class="state">Slow Speed</div>
+                    <div class="state">Medium Speed</div>
+                    <div class="state">Fast Speed</div>
+                </div>
+                <div class="note">
+                    Viteza crește pe măsură ce numărul de inamici scade
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Tragere Inamici</h3>
+                <div class="row">
+                    <div class="state">Enemy Shooting</div>
+                    <div class="arrow"></div>
+                    <div class="state">Bullet Created</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bullet States -->
+        <div class="section">
+            <div class="section-title">Stări Gloanțe</div>
+            <div class="row">
+                <div class="state">Bullet Created</div>
+                <div class="arrow"></div>
+                <div class="state">Apply Movement Parameters</div>
+                <div class="arrow"></div>
+                <div class="state">Move Bullet</div>
+                <div class="arrow"></div>
+                <div class="state">Check Bullet Destruction</div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Parametri Mișcare</h3>
+                <div class="row">
+                    <div class="col">
+                        <h4>Viteză</h4>
+                        <div class="state">Slow Speed</div>
+                        <div class="state">Medium Speed</div>
+                        <div class="state">Fast Speed</div>
+                    </div>
+                    <div class="col">
+                        <h4>Model Mișcare</h4>
+                        <div class="state">Straight Top to Bottom</div>
+                        <div class="state">Zig-Zag</div>
+                        <div class="state">Diagonal</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Distrugere Gloanțe</h3>
+                <div class="row">
+                    <div class="col">
+                        <div class="state">Bullet Exits Arena</div>
+                    </div>
+                    <div class="col">
+                        <div class="state">Bullet Hits Hitbox</div>
+                        <div class="arrow"></div>
+                        <div class="state">Bullet Interaction</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Interacțiune Gloanțe</h3>
+                <div class="row">
+                    <div class="state">Deals Damage to Wall</div>
+                    <div class="state">Deals Damage to Enemy</div>
+                    <div class="state">Deals Damage to Player</div>
+                    <div class="state">Deals Damage to Ability Box</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Collision States -->
+        <div class="section">
+            <div class="section-title">Stări Coliziune</div>
+            
+            <div class="subsection">
+                <h3>Coliziune Gloanțe</h3>
+                <div class="row">
+                    <div class="col">
+                        <div class="state">Bullet Hit Enemy</div>
+                        <div class="arrow-down"></div>
+                        <div class="state">Enemy Health Zero</div>
+                        <div class="arrow-down"></div>
+                        <div class="state">Destroy Enemy</div>
+                    </div>
+                    <div class="col">
+                        <div class="state">Bullet Hit Player</div>
+                        <div class="arrow-down"></div>
+                        <div class="state">Player Health Zero</div>
+                        <div class="arrow-down"></div>
+                        <div class="state">Destroy Player</div>
+                    </div>
+                    <div class="col">
+                        <div class="state">Bullet Hit Barrier</div>
+                        <div class="arrow-down"></div>
+                        <div class="state">Barrier Damaged</div>
+                        <div class="arrow-down"></div>
+                        <div class="state">Update Barrier State</div>
+                    </div>
+                    <div class="col">
+                        <div class="state">Bullet Hit Ability Box</div>
+                        <div class="arrow-down"></div>
+                        <div class="state">Ability Box Health Zero</div>
+                        <div class="arrow-down"></div>
+                        <div class="state">Destroy Ability Box</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Efecte Distrugere Inamic</h3>
+                <div class="row">
+                    <div class="col">
+                        <div class="state">Increase Score</div>
+                    </div>
+                    <div class="col">
+                        <div class="state">Increase Enemies Speed</div>
+                        <div class="condition">Mai puțini inamici</div>
+                    </div>
+                    <div class="col">
+                        <div class="state">Check No Enemies Left</div>
+                        <div class="arrow-down"></div>
+                        <div class="condition">Toți inamicii distruși</div>
+                        <div class="arrow-down"></div>
+                        <div class="state">No Enemy Left</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3>Abilități Aleatorii</h3>
+                <div class="row">
+                    <div class="state">Triple Bullet Shot</div>
+                    <div class="state">Increased Bullet Damage</div>
+                    <div class="state">Increased Spaceship Health</div>
+                    <div class="state">Temporary Invincibility</div>
+                    <div class="state">Extra Wall</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- End Game Conditions -->
+        <div class="section">
+            <div class="section-title">Condiții Terminare Joc</div>
+            <div class="row">
+                <div class="col">
+                    <div class="state">No Enemy Left</div>
+                    <div class="arrow-down"></div>
+                    <div class="state">Win Game</div>
+                </div>
+                <div class="col">
+                    <div class="state">Enemy Reached Bottom</div>
+                    <div class="arrow-down"></div>
+                    <div class="state">Lose Game</div>
+                </div>
+                <div class="col">
+                    <div class="state">Player Health Zero</div>
+                    <div class="arrow-down"></div>
+                    <div class="state">Lose Game</div>
+                </div>
+                <div class="col">
+                    <div class="state">No Bullets Left</div>
+                    <div class="arrow-down"></div>
+                    <div class="state">Lose Game</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="arrow-down"></div>
+                <div class="state">End Game</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Mono Launch",
+            "type": "mono",
+            "request": "launch",
+            "program": "${workspaceFolder}/Program.exe",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
+        }
+    ]
+}

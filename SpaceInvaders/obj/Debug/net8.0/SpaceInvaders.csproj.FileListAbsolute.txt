@@ -31,3 +31,4 @@
 /home/eduh/Documents/SpaceInvaders/SpaceInvaders/obj/Debug/net8.0/SpaceInvaders.genruntimeconfig.cache
 /home/eduh/Documents/SpaceInvaders/SpaceInvaders/obj/Debug/net8.0/ref/SpaceInvaders.dll
 /home/eduh/Documents/SpaceInvaders/SpaceInvaders/bin/Debug/net8.0/Content/bug.xnb
+/home/eduh/Documents/SpaceInvaders/SpaceInvaders/bin/Debug/net8.0/Content/bullet.xnb

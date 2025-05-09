@@ -1,14 +1,11 @@
 using Microsoft.Xna.Framework.Graphics;
 
-class Player : Character {
-    public Player(int x, int y, int width, int height, Texture2D Texture, int health,
-    int damage, Weapon weapon, float movementSpeed)
-    : base(x, y, width, height, Texture, health, damage)
+public class Player : Character {
+    public Player(int x, int y, int width, int height, Texture2D Texture, int health, int damage, Weapon weapon, float movementSpeed)
+    : base(x, y, width, height, Texture, health, damage, weapon, movementSpeed)
     {
+        // this.weapon = weapon;
         // shootingDirection = "up";
-        this.damage = damage;
-        this.weapon = weapon;
-        this.movementSpeed = movementSpeed;
     }
 
     protected override bool isValidDirection(string direction)
@@ -21,7 +18,7 @@ class Player : Character {
         this.damage *= 2;
     }
 
-    public void changeFireStrategy (string strategyType) {
-        weapon.changeFireStrategy (strategyType);
+    public bool changeFireStrategy (string strategyType) {
+        return weapon.changeFireStrategy (strategyType);
     }
 }

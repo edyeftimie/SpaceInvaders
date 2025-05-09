@@ -3,28 +3,33 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 
 public abstract class Character : DamageableObject, IFire {
-    public required Weapon weapon {get;set;}
+    public Weapon weapon {get; set;}
     protected float movementSpeed {get; set;}
 
     // public required string shootingDirection {get; set;}
 
-    protected Character(int x, int y, int width, int height, Texture2D Texture, int health, int damage)
+    protected Character(int x, int y, int width, int height, Texture2D Texture, int health, int damage, Weapon weapon, float movementSpeed)
     : base(x, y, width, height, Texture, health, damage)
     {
+        this.weapon = weapon;
+        this.movementSpeed = movementSpeed;
     }
 
     public List<Bullet> Fire() {
         return weapon.Fire (this.x, this.y, this.damage, this);
     }
     
-    public void move (string direction) {
+    public bool move (string direction) {
         if (isValidDirection (direction)) {
             switch (direction){
                 // case "up": y -= (int)movementSpeed; break;
-                case "down": move(0,+(int)movementSpeed); break;
-                case "left": move(-(int)movementSpeed,0); break;
-                case "right": move(+(int)movementSpeed,0); break;
+                case "down": return move(0,+(int)movementSpeed);
+                case "left": return move(-(int)movementSpeed,0);
+                case "right": return move(+(int)movementSpeed,0);
+                default: return false;
             }
+        } else {
+            return false;
         }
     }
 

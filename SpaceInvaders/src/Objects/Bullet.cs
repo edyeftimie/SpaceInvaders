@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 public class Bullet: DamageableObject {
     IBulletStrategy bulletStrategy;
-    Character source;
+    public Character source {get;}
     public int speed; 
 
     public Bullet(int x, int y, int width, int height, Texture2D Texture, int health, int damage,

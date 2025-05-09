@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -8,8 +10,8 @@ public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
-
-    public GameObject _bug;
+    private Player _bug;
+    public List <Bullet> _listOfBullets;
 
     public Game1()
     {
@@ -17,6 +19,7 @@ public class Game1 : Game
         _graphics.IsFullScreen = true;
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+        _listOfBullets = new List<Bullet> ();
     }
 
     protected override void Initialize()
@@ -31,16 +34,41 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         Texture2D bugTexture = Content.Load<Texture2D>("bug");
+        Texture2D bulletTexture = Content.Load<Texture2D>("bullet");
         // 1920 x 1080
-        _bug = new GameObject(800,800,200,200, bugTexture);
+        BulletFactory.Instance.Initialize (100, 100, bulletTexture, 1);
+        Weapon simpleWeapon = new Weapon (0.4, 1000, new DoubleFireStrategy (), new DiagonalBulletStrategy ());
+        _bug = new Player (800,800,200,200, bugTexture, 100, 10, simpleWeapon, 10);
 
         // TODO: use this.Content to load your game content here
     }
 
     protected override void Update(GameTime gameTime)
     {
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+        KeyboardState currentState = Keyboard.GetState();
+        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || 
+        currentState.IsKeyDown(Keys.Escape))
             Exit();
+        if (currentState.IsKeyDown (Keys.Right) ||
+        currentState.IsKeyDown(Keys.D)) {
+           _bug.move ("right"); 
+        } else if (currentState.IsKeyDown (Keys.Left) ||
+        currentState.IsKeyDown(Keys.A)) {
+            _bug.move ("left");
+        } 
+        if (currentState.IsKeyDown (Keys.Space)) {
+            List <Bullet> currentBullets = _bug.Fire();
+            if (currentBullets is { Count: > 0})
+                foreach (var bullet in currentBullets) {
+                    _listOfBullets.Add (bullet);
+                } 
+        }
+
+        if (_listOfBullets is { Count: > 0}) {
+            foreach (var bullet in _listOfBullets) {
+                bullet.move ();
+            }
+        }
 
         // TODO: Add your update logic here
 
@@ -65,6 +93,20 @@ public class Game1 : Game
             ), 
             Color.White
         );
+        if (_listOfBullets is { Count: > 0}) {
+            foreach (var bullet in _listOfBullets) {
+                _spriteBatch.Draw (
+                    bullet.Texture,
+                    new Rectangle (
+                        (int)bullet.x,
+                        (int)bullet.y,
+                        (int)bullet.width,
+                        (int)bullet.height
+                    ),
+                    Color.White
+                );
+            }
+        }
 
         _spriteBatch.End();
 

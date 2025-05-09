@@ -15,9 +15,10 @@ public class GameObject {
         this.Texture = Texture;
     } 
 
-    public void move (int x, int y) {
+    public bool move (int x, int y) {
         //validator todo
         this.x += x;
         this.y += y;
+        return true;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,7 +12,7 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private Player _bug;
-    public List <Bullet> _listOfBullets;
+    public BulletCollection _listOfBullets;
 
     public Game1()
     {
@@ -19,7 +20,7 @@ public class Game1 : Game
         _graphics.IsFullScreen = true;
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
-        _listOfBullets = new List<Bullet> ();
+        _listOfBullets = new BulletCollection ();
     }
 
     protected override void Initialize()
@@ -35,9 +36,17 @@ public class Game1 : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         Texture2D bugTexture = Content.Load<Texture2D>("bug");
         Texture2D bulletTexture = Content.Load<Texture2D>("bullet");
+
         // 1920 x 1080
         BulletFactory.Instance.Initialize (100, 100, bulletTexture, 1);
-        Weapon simpleWeapon = new Weapon (0.4, 1000, new DoubleFireStrategy (), new DiagonalBulletStrategy ());
+        BulletStrategyFactory.RegisterStrategy ("straight", () => new StraightBulletStrategy ());
+        BulletStrategyFactory.RegisterStrategy ("diagonal", () => new DiagonalBulletStrategy ());
+        BulletStrategyFactory.RegisterStrategy ("zigzag", () => new ZigZagBulletStrategy ());
+        FireFactory.RegisterStrategy ("single", () => new SingleFireStrategy ());
+        FireFactory.RegisterStrategy ("double", () => new DoubleFireStrategy ());
+        FireFactory.RegisterStrategy ("triple", () => new TripleFireStrategy ());
+
+        Weapon simpleWeapon = new Weapon (0.4, 1000, "single", "straight");
         _bug = new Player (800,800,200,200, bugTexture, 100, 10, simpleWeapon, 10);
 
         // TODO: use this.Content to load your game content here
@@ -57,7 +66,7 @@ public class Game1 : Game
             _bug.move ("left");
         } 
         if (currentState.IsKeyDown (Keys.Space)) {
-            List <Bullet> currentBullets = _bug.Fire();
+            BulletCollection currentBullets = _bug.Fire();
             if (currentBullets is { Count: > 0})
                 foreach (var bullet in currentBullets) {
                     _listOfBullets.Add (bullet);

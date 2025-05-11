@@ -10,23 +10,27 @@ public class Weapon {
     private DateTime? _lastTimeWhereTheUserShooted;
     public int ammo;
     IFireStrategy fireStrategy;
-    IBulletStrategy bulletStrategy;
+    string bulletStrategyType;
 
-    public Weapon (double cooldown, int ammo, IFireStrategy fireStrategy, IBulletStrategy bulletStrategy) {
+    public Weapon (double cooldown, int ammo, string fireStrategyType, string bulletStrategyType) {
         this.cooldown = cooldown;
         this.ammo = ammo;
-        this.fireStrategy = fireStrategy;
-        this.bulletStrategy = bulletStrategy;
+        IFireStrategy? fireStrategy = FireFactory.GetStrategy (fireStrategyType);
+        if (fireStrategy != null)
+            this.fireStrategy = fireStrategy;
+        else 
+            this.fireStrategy = new SingleFireStrategy ();
+        this.bulletStrategyType = bulletStrategyType;
         this._lastTimeWhereTheUserShooted = null;
     }
 
-    public List<Bullet> Fire (int x, int y, int damage, Character source) {
+    public BulletCollection Fire (int x, int y, int damage, Character source) {
         // return BulletFactory.Instance.CreateBullet (x, y, bulletStrategy, )
         if (canItShoot ()) {
             _lastTimeWhereTheUserShooted = DateTime.Now;
-            return fireStrategy.fire (x, y, damage, bulletStrategy, source);
+            return fireStrategy.fire (x, y, damage, bulletStrategyType, source);
         }
-        return new List<Bullet> { };
+        return new BulletCollection ();
     }
 
     private bool canItShoot () {
@@ -43,7 +47,8 @@ public class Weapon {
     public bool changeFireStrategy (string strategyType) {
         IBulletStrategy? currentStrategy = BulletStrategyFactory.GetStrategy (strategyType); 
         if (currentStrategy != null) {
-            this.bulletStrategy = currentStrategy;
+        //     this.bulletStrategy = currentStrategy;
+            bulletStrategyType = strategyType;
             return true;
         }
         return false;

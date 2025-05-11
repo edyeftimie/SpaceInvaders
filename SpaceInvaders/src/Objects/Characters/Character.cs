@@ -15,8 +15,10 @@ public abstract class Character : DamageableObject, IFire {
         this.movementSpeed = movementSpeed;
     }
 
-    public List<Bullet> Fire() {
-        return weapon.Fire (this.x, this.y, this.damage, this);
+    public BulletCollection Fire() {
+        int currentX = this.x + this.width/2;
+        int currentY = this.y;
+        return weapon.Fire (currentX, currentY, this.damage, this);
     }
     
     public bool move (string direction) {

@@ -20,8 +20,11 @@ public class BulletFactory {
     }
     public Bullet CreateBullet (int x, int y, int damage, string bulletStrategyType, Character source) {
         IBulletStrategy? bulletStrategy = BulletStrategyFactory.GetStrategy (bulletStrategyType);
-        if (bulletStrategy != null)
+        x -= _width/2;
+        y -= _height/2;
+        if (bulletStrategy != null) {
             return new Bullet (x, y, _width, _height, _Texture, _health, damage, bulletStrategy, source);
+        }
         return new Bullet (x, y, _width, _height, _Texture, _health, damage, new StraightBulletStrategy (), source);
     }
 }

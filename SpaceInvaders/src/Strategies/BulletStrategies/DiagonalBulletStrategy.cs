@@ -22,7 +22,8 @@ public class DiagonalBulletStrategy : IBulletStrategy {
 
     public void move (Bullet bullet) {
         int speed = Convert.ToInt32 (bullet.speed * 1.4);
-        bullet.move (_direction*speed/2, speed*Direction.directionCoefficient (bullet.source));
+        //todo to shoot on oposite diagonal
+        bullet.move (_direction*speed/3, speed*Direction.directionCoefficient (bullet.source));
     }
 
 

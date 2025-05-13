@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 public class Direction {
     public static int directionCoefficient (Character character) {
         if (character is Player) {

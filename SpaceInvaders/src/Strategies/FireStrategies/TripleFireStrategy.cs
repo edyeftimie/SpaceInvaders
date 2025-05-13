@@ -9,13 +9,15 @@ public class TripleFireStrategy : IFireStrategy {
     public BulletCollection fire (int x, int y, int damage, string bulletStrategyType, Character source) {
         BulletCollection bulletCollection = new BulletCollection ();
 
-        Bullet firstBullet = BulletFactory.Instance.CreateBullet (x, y-_spacing, damage, bulletStrategyType, source);
+        Bullet firstBullet = BulletFactory.Instance.CreateBullet (x-_spacing, y, damage, bulletStrategyType, source);
         bulletCollection.Add (firstBullet);
 
         Bullet secondBullet = BulletFactory.Instance.CreateBullet (x, y, damage, bulletStrategyType, source);
+        secondBullet.bulletStrategy = firstBullet.bulletStrategy;
         bulletCollection.Add (secondBullet);
         
-        Bullet thirdBullet = BulletFactory.Instance.CreateBullet (x, y+_spacing, damage, bulletStrategyType, source);
+        Bullet thirdBullet = BulletFactory.Instance.CreateBullet (x+_spacing, y, damage, bulletStrategyType, source);
+        thirdBullet.bulletStrategy = firstBullet.bulletStrategy;
         bulletCollection.Add (thirdBullet);
         
         return bulletCollection;

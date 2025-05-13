@@ -6,6 +6,12 @@ public class GameObject {
     public int width {get;}
     public int height {get;}
     public Texture2D Texture {get;}
+    public int middleX { 
+        get { return x + width/2; }
+    }
+    public int middleY {
+        get { return y + height/2; }
+    }
 
     public GameObject (int x, int y, int width, int height, Texture2D Texture) {
         this.x = x;
@@ -13,6 +19,8 @@ public class GameObject {
         this.width = width;
         this.height = height;
         this.Texture = Texture;
+        // this.middleX = this.x + width/2;
+        // this.middleY = this.y + height/2;
     } 
 
     public bool move (int x, int y) {

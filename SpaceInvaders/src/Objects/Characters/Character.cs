@@ -16,8 +16,10 @@ public abstract class Character : DamageableObject, IFire {
     }
 
     public BulletCollection Fire() {
-        int currentX = this.x + this.width/2;
-        int currentY = this.y;
+        // int currentX = this.x;
+        // int currentY = this.y;
+        int currentX = this.middleX;
+        int currentY = this.middleY;
         return weapon.Fire (currentX, currentY, this.damage, this);
     }
     

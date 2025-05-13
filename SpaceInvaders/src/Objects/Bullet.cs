@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework.Graphics;
 
 public class Bullet: DamageableObject {
-    IBulletStrategy bulletStrategy;
+    public IBulletStrategy bulletStrategy {get; set;}
     public Character source {get;}
     public int speed; 
 

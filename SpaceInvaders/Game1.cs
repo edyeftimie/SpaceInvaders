@@ -38,15 +38,19 @@ public class Game1 : Game
         Texture2D bulletTexture = Content.Load<Texture2D>("bullet");
 
         // 1920 x 1080
-        BulletFactory.Instance.Initialize (100, 100, bulletTexture, 1);
+        BulletFactory.Instance.Initialize (60, 60, bulletTexture, 1);
+
         BulletStrategyFactory.RegisterStrategy ("straight", () => new StraightBulletStrategy ());
         BulletStrategyFactory.RegisterStrategy ("diagonal", () => new DiagonalBulletStrategy ());
-        BulletStrategyFactory.RegisterStrategy ("zigzag", () => new ZigZagBulletStrategy ());
-        FireFactory.RegisterStrategy ("single", () => new SingleFireStrategy ());
-        FireFactory.RegisterStrategy ("double", () => new DoubleFireStrategy ());
-        FireFactory.RegisterStrategy ("triple", () => new TripleFireStrategy ());
+        BulletStrategyFactory.RegisterStrategy ("zigzag", () => new ZigZagBulletStrategy (50));
 
-        Weapon simpleWeapon = new Weapon (0.4, 1000, "single", "straight");
+        FireFactory.RegisterStrategy ("single", () => new SingleFireStrategy ());
+        FireFactory.RegisterStrategy ("double", () => new DoubleFireStrategy (60));
+        FireFactory.RegisterStrategy ("triple", () => new TripleFireStrategy (60));
+
+        // Weapon simpleWeapon = new Weapon (0.4, 1000, "single", "straight");
+        Weapon simpleWeapon = new Weapon (0.4, 1000, "triple", "straight");
+        // Weapon simpleWeapon = new Weapon (0.4, 1000, "single", "straight");
         _bug = new Player (800,800,200,200, bugTexture, 100, 10, simpleWeapon, 10);
 
         // TODO: use this.Content to load your game content here
@@ -65,6 +69,7 @@ public class Game1 : Game
         currentState.IsKeyDown(Keys.A)) {
             _bug.move ("left");
         } 
+
         if (currentState.IsKeyDown (Keys.Space)) {
             BulletCollection currentBullets = _bug.Fire();
             if (currentBullets is { Count: > 0})
@@ -102,6 +107,7 @@ public class Game1 : Game
             ), 
             Color.White
         );
+
         if (_listOfBullets is { Count: > 0}) {
             foreach (var bullet in _listOfBullets) {
                 _spriteBatch.Draw (

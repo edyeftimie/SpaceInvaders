@@ -1,10 +1,13 @@
 using System;
 
 class ZigZagBulletStrategy : IBulletStrategy {
-    private int _frameCount = 0;
+    private int _frameCount;
+    private int _switchAtFrameNumber;
     private int _direction;
 
-    public ZigZagBulletStrategy () {
+    public ZigZagBulletStrategy (int switchAtFrameNumber) {
+        _frameCount = 0;
+        _switchAtFrameNumber = switchAtFrameNumber;
         _direction = GetRandomDirection ();
     }
     
@@ -14,10 +17,10 @@ class ZigZagBulletStrategy : IBulletStrategy {
 
     public void move (Bullet bullet) {
         _frameCount ++;
-        if (_frameCount % 20 == 0) {
+        if (_frameCount % _switchAtFrameNumber == 0) {
             _direction *= -1;
         }
-        int speed = bullet.speed;
+        int speed = (int)(bullet.speed*0.7);
         bullet.move (_direction*speed, speed*Direction.directionCoefficient (bullet.source));
     }
     //todo , change from _frameCount to distance ...

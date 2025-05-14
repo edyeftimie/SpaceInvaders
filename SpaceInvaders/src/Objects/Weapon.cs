@@ -24,13 +24,28 @@ public class Weapon {
         this._lastTimeWhereTheUserShooted = null;
     }
 
-    public BulletCollection Fire (int x, int y, int damage, Character source) {
+    public Weapon (double cooldown, int ammo) {
+        this.cooldown = cooldown;
+        this.ammo = ammo;
+        this._lastTimeWhereTheUserShooted = DateTime.Now;
+
+        this.bulletStrategyType = "straight";
+        String fireStrategyType = "single";
+
+        IFireStrategy? fireStrategy = FireFactory.GetStrategy (fireStrategyType);
+        if (fireStrategy != null)
+            this.fireStrategy = fireStrategy;
+        else 
+            this.fireStrategy = new SingleFireStrategy ();
+    }
+
+    public Collection<Bullet> Fire (int x, int y, int damage, Character source) {
         // return BulletFactory.Instance.CreateBullet (x, y, bulletStrategy, )
         if (canItShoot ()) {
             _lastTimeWhereTheUserShooted = DateTime.Now;
             return fireStrategy.fire (x, y, damage, bulletStrategyType, source);
         }
-        return new BulletCollection ();
+        return new Collection<Bullet> ();
     }
 
     private bool canItShoot () {

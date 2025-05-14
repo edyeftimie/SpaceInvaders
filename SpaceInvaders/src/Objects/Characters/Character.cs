@@ -15,7 +15,7 @@ public abstract class Character : DamageableObject, IFire {
         this.movementSpeed = movementSpeed;
     }
 
-    public BulletCollection Fire() {
+    public Collection<Bullet> Fire() {
         // int currentX = this.x;
         // int currentY = this.y;
         int currentX = this.middleX;

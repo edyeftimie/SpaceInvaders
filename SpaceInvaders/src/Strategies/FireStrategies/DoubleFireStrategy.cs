@@ -6,8 +6,8 @@ public class DoubleFireStrategy : IFireStrategy {
         _spacing = spacing;
     }
 
-    public BulletCollection fire (int x, int y, int damage, string bulletStrategyType, Character source) {
-        BulletCollection bulletCollection = new BulletCollection ();
+    public Collection<Bullet> fire (int x, int y, int damage, string bulletStrategyType, Character source) {
+        Collection<Bullet> bulletCollection = new Collection<Bullet> ();
         Bullet firstBullet = BulletFactory.Instance.CreateBullet (x+_spacing/2, y, damage, bulletStrategyType, source);
         // Bullet firstBullet = BulletFactory.Instance.CreateBullet (x, y, damage, bulletStrategyType, source);
         // firstBullet.move (0, -__spacing/2);

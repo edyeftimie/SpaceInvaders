@@ -12,7 +12,8 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private Player _bug;
-    public BulletCollection _listOfBullets;
+    public Collection<Bullet> _listOfBullets;
+    public Collection<Enemy> _listOfEnemies;
 
     public Game1()
     {
@@ -20,7 +21,7 @@ public class Game1 : Game
         _graphics.IsFullScreen = true;
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
-        _listOfBullets = new BulletCollection ();
+        _listOfBullets = new Collection<Bullet> ();
     }
 
     protected override void Initialize()
@@ -48,9 +49,14 @@ public class Game1 : Game
         FireFactory.RegisterStrategy ("double", () => new DoubleFireStrategy (60));
         FireFactory.RegisterStrategy ("triple", () => new TripleFireStrategy (60));
 
+        EnemyFactory.Instance.Initialize (120, 120, bugTexture, 5, 1, 5, 0.4, 1.0, 1, 3, 10);
+
+        _listOfBullets = new Collection<Bullet> ();
+        _listOfEnemies = new Collection<Enemy> ();
+
         // Weapon simpleWeapon = new Weapon (0.4, 1000, "single", "straight");
+        // Weapon simpleWeapon = new Weapon (0.4, 1000, "triple", "straight");
         Weapon simpleWeapon = new Weapon (0.4, 1000, "triple", "straight");
-        // Weapon simpleWeapon = new Weapon (0.4, 1000, "single", "straight");
         _bug = new Player (800,800,200,200, bugTexture, 100, 10, simpleWeapon, 10);
 
         // TODO: use this.Content to load your game content here
@@ -71,7 +77,7 @@ public class Game1 : Game
         } 
 
         if (currentState.IsKeyDown (Keys.Space)) {
-            BulletCollection currentBullets = _bug.Fire();
+            Collection<Bullet> currentBullets = _bug.Fire();
             if (currentBullets is { Count: > 0})
                 foreach (var bullet in currentBullets) {
                     _listOfBullets.Add (bullet);
@@ -81,6 +87,18 @@ public class Game1 : Game
         if (_listOfBullets is { Count: > 0}) {
             foreach (var bullet in _listOfBullets) {
                 bullet.move ();
+            }
+        }
+
+        if (_listOfEnemies is { Count : <= 0}) {
+            Collection<Enemy> spawnEnemies = EnemyFactory.Instance.CreateRowOfEnemies (10, 100, 1700, 50);
+            foreach (var enemy in spawnEnemies) {
+                _listOfEnemies.Add (enemy);
+            }
+        } else {
+            foreach (var enemy in _listOfEnemies) {
+                // enemy.Fire ();
+                enemy.move ();
             }
         }
 
@@ -117,6 +135,21 @@ public class Game1 : Game
                         (int)bullet.y,
                         (int)bullet.width,
                         (int)bullet.height
+                    ),
+                    Color.White
+                );
+            }
+        }
+
+        if (_listOfEnemies is { Count: > 0}) {
+            foreach (var enemy in _listOfEnemies) {
+                _spriteBatch.Draw (
+                    enemy.Texture,
+                    new Rectangle (
+                        (int)enemy.x,
+                        (int)enemy.y,
+                        (int)enemy.width,
+                        (int)enemy.height
                     ),
                     Color.White
                 );

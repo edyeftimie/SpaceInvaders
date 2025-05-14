@@ -1,5 +1,5 @@
 using System.Collections.Generic;
 
 public interface IFire {
-    public BulletCollection Fire ();
+    public Collection<Bullet> Fire ();
 }

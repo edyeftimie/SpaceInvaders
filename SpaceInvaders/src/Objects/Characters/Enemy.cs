@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework.Graphics;
 
-class Enemy : Character {
+public class Enemy : Character {
     public Enemy(int x, int y, int width, int height, Texture2D Texture, int health, int damage, Weapon weapon, float movementSpeed)
     : base(x, y, width, height, Texture, health, damage, weapon, movementSpeed) {
         // shootingDirection = "down";
@@ -14,7 +14,7 @@ class Enemy : Character {
         weapon.changeBulletStrategy (bulletStrategy);
     }
 
-    // public void move () {
-    //     move ("down");
-    // }
+    public void move () {
+        move ("down");
+    }
 }

@@ -57,7 +57,7 @@ public class EnemyFactory {
     }
 
     public double GetCooldown () {
-        return GetValueBetween ((int)(_startCooldownInterval*10), (int)(_endCooldownInterval*10))/10;
+        return GetValueBetween ((int)(_startCooldownInterval*10), (int)(_endCooldownInterval*10))/10.0;
     }
 
     public int GetMovement () {

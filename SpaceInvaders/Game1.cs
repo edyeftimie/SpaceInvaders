@@ -49,7 +49,7 @@ public class Game1 : Game
         FireFactory.RegisterStrategy ("double", () => new DoubleFireStrategy (60));
         FireFactory.RegisterStrategy ("triple", () => new TripleFireStrategy (60));
 
-        EnemyFactory.Instance.Initialize (120, 120, bugTexture, 5, 1, 5, 0.4, 1.0, 1, 3, 10);
+        EnemyFactory.Instance.Initialize (120, 120, bugTexture, 5, 1, 5, 0.4, 2, 1, 3, 10);
 
         _listOfBullets = new Collection<Bullet> ();
         _listOfEnemies = new Collection<Enemy> ();
@@ -84,12 +84,6 @@ public class Game1 : Game
                 } 
         }
 
-        if (_listOfBullets is { Count: > 0}) {
-            foreach (var bullet in _listOfBullets) {
-                bullet.move ();
-            }
-        }
-
         if (_listOfEnemies is { Count : <= 0}) {
             Collection<Enemy> spawnEnemies = EnemyFactory.Instance.CreateRowOfEnemies (10, 100, 1700, 50);
             foreach (var enemy in spawnEnemies) {
@@ -97,8 +91,20 @@ public class Game1 : Game
             }
         } else {
             foreach (var enemy in _listOfEnemies) {
-                // enemy.Fire ();
-                enemy.move ();
+                Collection<Bullet> currentBullets = enemy.Fire ();
+                if (currentBullets is { Count: >0}){
+                    foreach (var bullet in currentBullets) {
+                        _listOfBullets.Add (bullet);
+                    }
+                } else {
+                    enemy.move ();
+                }
+            }
+        }
+
+        if (_listOfBullets is { Count: > 0}) {
+            foreach (var bullet in _listOfBullets) {
+                bullet.move ();
             }
         }
 

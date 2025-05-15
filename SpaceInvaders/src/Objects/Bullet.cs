@@ -16,7 +16,7 @@ public class Bullet: DamageableObject {
         this.speed = 10;
     }
 
-    public void move () {
-        bulletStrategy.move (this);
+    public bool move () {
+        return bulletStrategy.move (this);
     }
 }

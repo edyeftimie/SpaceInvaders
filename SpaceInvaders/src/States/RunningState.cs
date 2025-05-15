@@ -5,7 +5,7 @@ using SpaceInvaders;
 
 public class RunningState : IGameState
 {
-    public void Update(GameTime gameTime, Game1 game) {
+    public void Update(GameTime gameTime, SpaceInvadersGame game) {
         KeyboardState currentState = Keyboard.GetState();
         game._player.UpdateGameTime (gameTime);
         if (currentState.IsKeyDown(Keys.Right) || currentState.IsKeyDown(Keys.D)) {
@@ -23,33 +23,61 @@ public class RunningState : IGameState
             }
         }
 
-        if (game._listOfEnemies is { Count: <= 0 }) {
+        if (game._destroyableObjects is { Count: > 0}) {
+            foreach (var gameObject in game._destroyableObjects) {
+                gameObject.destroyEntity ();
+                if (gameObject is Enemy enemy) {
+                    Logger.Log("destroy enemy is "+game._listOfEnemies.Remove (enemy));
+                } else if (gameObject is Bullet bullet) {
+                    Logger.Log("destrooy bullet is "+game._listOfBullets.Remove (bullet));
+                }
+            }
+        }
+
+        if (game._listOfEnemies is { Count: <= 0 })
+        {
             Collection<Enemy> spawnEnemies = EnemyFactory.Instance.CreateRowOfEnemies(10, 100, 1700, 50);
-            foreach (var enemy in spawnEnemies) {
+            foreach (var enemy in spawnEnemies)
+            {
                 game._listOfEnemies.Add(enemy);
             }
-        } else {
-            foreach (var enemy in game._listOfEnemies) {
-                enemy.UpdateGameTime (gameTime);
+        }
+        else
+        {
+            foreach (var enemy in game._listOfEnemies)
+            {
+                // game._destroyableObjects = new Collection<DamageableObject> ();
+                enemy.UpdateGameTime(gameTime);
                 Collection<Bullet> currentBullets = enemy.Fire();
-                if (currentBullets is { Count: > 0 }) {
-                    foreach (var bullet in currentBullets) {
+                if (currentBullets is { Count: > 0 })
+                {
+                    foreach (var bullet in currentBullets)
+                    {
                         game._listOfBullets.Add(bullet);
                     }
-                } else {
-                    enemy.move();
+                }
+                else
+                {
+                    bool isValidMove = enemy.move();
+                    if (!isValidMove)
+                    {
+                        game._destroyableObjects.Add(enemy);
+                    }
                 }
             }
         }
 
         if (game._listOfBullets is { Count: > 0 }) {
             foreach (var bullet in game._listOfBullets) {
-                bullet.move();
+                bool isValidMove = bullet.move();
+                if (!isValidMove) {
+                    game._destroyableObjects.Add(bullet);
+                }
             }
         }
     }
 
-    public void Draw (GameTime gameTime, SpriteBatch spriteBatch, Game1 game) {
+    public void Draw (GameTime gameTime, SpriteBatch spriteBatch, SpaceInvadersGame game) {
         if (game._listOfBullets is { Count: > 0 }) {
             foreach (var bullet in game._listOfBullets) {
                 spriteBatch.Draw (

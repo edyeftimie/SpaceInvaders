@@ -1,3 +1,3 @@
 public interface IBulletStrategy {
-    public void move (Bullet bullet);
+    public bool move (Bullet bullet);
 }

@@ -15,13 +15,13 @@ class ZigZagBulletStrategy : IBulletStrategy {
         return Random.Shared.Next (2) == 0 ? -1 : 1;
     }
 
-    public void move (Bullet bullet) {
+    public bool move (Bullet bullet) {
         _frameCount ++;
         if (_frameCount % _switchAtFrameNumber == 0) {
             _direction *= -1;
         }
         int speed = (int)(bullet.speed*0.7);
-        bullet.move (_direction*speed, speed*Direction.directionCoefficient (bullet.source));
+        return bullet.move (_direction*speed, speed*Direction.directionCoefficient (bullet.source));
     }
     //todo , change from _frameCount to distance ...
 }

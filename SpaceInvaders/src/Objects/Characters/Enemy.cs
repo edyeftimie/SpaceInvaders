@@ -14,7 +14,7 @@ public class Enemy : Character {
         weapon.changeBulletStrategy (bulletStrategy);
     }
 
-    public void move () {
-        move ("down");
+    public bool move () {
+        return move("down");
     }
 }

@@ -22,10 +22,10 @@ public class DiagonalBulletStrategy : IBulletStrategy {
         _direction = GetRandomDirection ();
     }
 
-    public void move (Bullet bullet) {
+    public bool move (Bullet bullet) {
         int speed = Convert.ToInt32 (bullet.speed * 1.4);
         //todo to shoot on oposite diagonal
-        bullet.move ((int)(_direction*speed*_diagonalCoefficient), speed*Direction.directionCoefficient (bullet.source));
+        return bullet.move ((int)(_direction*speed*_diagonalCoefficient), speed*Direction.directionCoefficient (bullet.source));
     }
 
 

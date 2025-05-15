@@ -1,5 +1,5 @@
 public class StraightBulletStrategy : IBulletStrategy {
-    public void move (Bullet bullet) {
-        bullet.move (0, + bullet.speed * Direction.directionCoefficient (bullet.source));
+    public bool move (Bullet bullet) {
+        return bullet.move (0, + bullet.speed * Direction.directionCoefficient (bullet.source));
     }
 }

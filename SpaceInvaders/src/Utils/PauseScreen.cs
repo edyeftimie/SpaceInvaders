@@ -34,15 +34,18 @@ namespace SpaceInvaders {
             return false;
         }
 
-        public void triggerPause () {
+        public bool triggerPause () {
             if (_isMenuActive == null) {
                 _isMenuActive = true;
                 _lastTimeWherePaused = DateTime.Now;
+                return true;
             } else {
                 if (canItPause ()) {
                     _isMenuActive = !_isMenuActive;
                     _lastTimeWherePaused = DateTime.Now;
+                    return true;
                 }
+                return false;
             }
         }
 

@@ -48,7 +48,7 @@ public class RunningState : IGameState
 
         if (game._listOfEnemies is { Count: <= 0 })
         {
-            Collection<Enemy> spawnEnemies = EnemyFactory.Instance.CreateRowOfEnemies(10, 100, 1700, 50);
+            Collection<Enemy> spawnEnemies = EnemyFactory.Instance.CreateRowOfEnemies(game._constants.enemyHeight/2, 0+100, game._constants.screenWidth, game._constants.spaceBetweenEnemies);
             foreach (var enemy in spawnEnemies)
             {
                 game._listOfEnemies.Add(enemy);

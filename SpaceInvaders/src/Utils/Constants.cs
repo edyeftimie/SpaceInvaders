@@ -25,49 +25,55 @@ namespace SpaceInvaders {
         public int enemyHeight {get; private set;} = 120;
         public int enemyHealth {get; private set;} = 5;
         public int enemyStartDamageInterval {get; private set;} = 1;
-        public int enemyEndDamageInterval {get; private set;} = 5;
-        public double enemyStartCooldownInterval {get; private set;} = 0.4;
-        public double enemyEndCooldownInterval {get; private set;} = 2;
+        public int enemyEndDamageInterval {get; private set;} = 3;
+        public double enemyStartCooldownInterval {get; private set;} = 0.6;
+        public double enemyEndCooldownInterval {get; private set;} = 3;
         public double enemyStartMovementSpeedInterval {get; private set;} = 1;
         public double enemyEndMovementSpeedInterval {get; private set;} = 3;
         public int enemyAmmo {get; private set;} = 10;
+        public int spaceBetweenEnemies { get; private set; } = 50;
         public double weaponCooldown {get;} = 0.4;
         public int weaponAmmo {get;} = 1000;
         public int bulletWidth {get; private set;} = 60;
         public int bulletHeight {get; private set;} = 60;
         public int bulletHealth {get; private set;} = 1;
-        public int spaceBetweenBullets {get; private set;} = 60;
+        public int spaceBetweenBullets { get; private set; } = 50;
         public int zigzagStrategySwitchFrame {get; private set;} = 20;
         public int diagonalStrategyCoefficient {get; private set;} = 33;
 
-        public Constants (int screenWidth, int screenHeight) {
+        public Constants(int screenWidth, int screenHeight)
+        {
             this.screenHeight = screenHeight;
             this.screenWidth = screenWidth;
-            Logger.Log ("screen_height: "+screenHeight);
-            Logger.Log ("screen_width: "+screenWidth);
-            if (screenHeight != _defaultScreenHeight) {
+            Logger.Log("screen_height: " + screenHeight);
+            Logger.Log("screen_width: " + screenWidth);
+            if (screenHeight != _defaultScreenHeight)
+            {
                 _screenHeightDifferenceCoefficient = screenHeight / (double)_defaultScreenHeight;
-                Logger.Log ("height_coef: " + _screenHeightDifferenceCoefficient);
+                Logger.Log("height_coef: " + _screenHeightDifferenceCoefficient);
                 playerHeight = (int)(playerHeight * _screenHeightDifferenceCoefficient);
                 enemyHeight = (int)(enemyHeight * _screenHeightDifferenceCoefficient);
                 bulletHeight = (int)(bulletHeight * _screenHeightDifferenceCoefficient);
             }
 
-            if (screenWidth != _defaultScreenWidth) {
+            if (screenWidth != _defaultScreenWidth)
+            {
                 _screenWidthDifferenceCoefficient = screenWidth / (double)_defaultScreenWidth;
-                Logger.Log ("width_coef: " + _screenWidthDifferenceCoefficient);
+                Logger.Log("width_coef: " + _screenWidthDifferenceCoefficient);
                 playerWidth = (int)(playerWidth * _screenWidthDifferenceCoefficient);
                 enemyWidth = (int)(enemyWidth * _screenWidthDifferenceCoefficient);
                 bulletWidth = (int)(bulletWidth * _screenWidthDifferenceCoefficient);
                 spaceBetweenBullets = (int)(spaceBetweenBullets * _screenHeightDifferenceCoefficient);
             }
-            playerDefaultX = screenWidth/2 - playerWidth/2;
-            Logger.Log ("playerX: " + playerDefaultX);
+            playerDefaultX = screenWidth / 2 - playerWidth / 2;
+            Logger.Log("playerX: " + playerDefaultX);
             playerDefaultY = screenHeight - playerHeight;
-            Logger.Log ("playerX: " + playerDefaultY);
+            Logger.Log("playerX: " + playerDefaultY);
 
-            pauseScreenX = screenWidth/2 - pauseScreenWidth/2;
-            pauseScreenY = screenHeight/2 - pauseScreenHeight/2;
+            pauseScreenX = screenWidth / 2 - pauseScreenWidth / 2;
+            pauseScreenY = screenHeight / 2 - pauseScreenHeight / 2;
+            spaceBetweenBullets = bulletWidth;
+            spaceBetweenEnemies = enemyWidth;
         }
     }
 }

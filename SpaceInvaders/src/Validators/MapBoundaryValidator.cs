@@ -11,17 +11,15 @@ namespace SpaceInvaders
         private int _maxY;
         public string ErrorMessage { get; private set; } = "";
 
-        // Private constructor to prevent external instantiation
         private MapBoundaryValidator() { }
 
-        // Public static method to get the singleton instance
         public static MapBoundaryValidator Instance
         {
             get
             {
                 if (_instance == null)
                 {
-                    lock (_lock) // Thread safety
+                    lock (_lock)
                     {
                         if (_instance == null)
                         {
@@ -33,7 +31,6 @@ namespace SpaceInvaders
             }
         }
 
-        // Public initialization method
         public void Initialize(int minX, int maxX, int minY, int maxY)
         {
             _minX = minX;

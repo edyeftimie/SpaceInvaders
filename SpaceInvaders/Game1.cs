@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -11,10 +7,13 @@ namespace SpaceInvaders {
     {
         public GraphicsDeviceManager _graphics;
         public SpriteBatch _spriteBatch;
+        public Constants _constants;
+
         public Player _player;
         public Collection<Bullet> _listOfBullets;
         public Collection<Enemy> _listOfEnemies;
-        public Constants _constants;
+
+
         internal PauseScreen _pauseScreen;
         public IGameState CurrentState {get; private set;}
         public RunningState _runningState;
@@ -39,7 +38,6 @@ namespace SpaceInvaders {
             int screenHeight = GraphicsDevice.DisplayMode.Height;
             _constants = new Constants (screenWidth, screenHeight);
 
-
             Window.Title = $"SpaceInvaders++ ({_constants.screenWidth}x{_constants.screenHeight})";
 
             _runningState = new RunningState ();
@@ -54,11 +52,10 @@ namespace SpaceInvaders {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             Texture2D bugTexture = Content.Load<Texture2D>("bug");
             Texture2D bulletTexture = Content.Load<Texture2D>("bullet");
-            Texture2D rectangleTexture = new Texture2D (GraphicsDevice, 1, 1);
 
+            Texture2D rectangleTexture = new Texture2D (GraphicsDevice, 1, 1);
             rectangleTexture.SetData([Color.White]);
             SpriteFont _defaultFont = Content.Load<SpriteFont>("Fonts/GameFont");
-            // SpriteFont _smallFont = Content.Load<SpriteFont>("SmallFont");
             _pauseScreen = new PauseScreen (rectangleTexture, _defaultFont, _constants.pauseScreenX, _constants.pauseScreenY, _constants.pauseScreenWidth, _constants.pauseScreenHeight, _constants.pauseCooldown);
 
             BulletFactory.Instance.Initialize (
@@ -112,8 +109,6 @@ namespace SpaceInvaders {
             _listOfBullets = new Collection<Bullet> ();
             _listOfEnemies = new Collection<Enemy> ();
 
-            // Weapon simpleWeapon = new Weapon (0.4, 1000, "single", "straight");
-            // Weapon simpleWeapon = new Weapon (0.4, 1000, "triple", "straight");
             Weapon simpleWeapon = new Weapon (
                 _constants.weaponCooldown,
                 _constants.weaponAmmo,
@@ -129,8 +124,6 @@ namespace SpaceInvaders {
                 _constants.playerDamage,
                 simpleWeapon,
                 _constants.playerMovementSpeed);
-
-            // TODO: use this.Content to load your game content here
         }
 
         protected override void Update(GameTime gameTime)
@@ -148,52 +141,6 @@ namespace SpaceInvaders {
             }
             CurrentState.Update (gameTime, this);
             base.Update (gameTime);
-
-            // if (!_pauseScreen.isMenuActive) {
-            //     if (currentState.IsKeyDown (Keys.Right) ||
-            //     currentState.IsKeyDown(Keys.D)) {
-            //     _player.move ("right"); 
-            //     } else if (currentState.IsKeyDown (Keys.Left) ||
-            //     currentState.IsKeyDown(Keys.A)) {
-            //         _player.move ("left");
-            //     } 
-
-            //     if (currentState.IsKeyDown (Keys.Space)) {
-            //         Collection<Bullet> currentBullets = _player.Fire();
-            //         if (currentBullets is { Count: > 0})
-            //             foreach (var bullet in currentBullets) {
-            //                 _listOfBullets.Add (bullet);
-            //             } 
-            //     }
-
-            //     if (_listOfEnemies is { Count : <= 0}) {
-            //         Collection<Enemy> spawnEnemies = EnemyFactory.Instance.CreateRowOfEnemies (10, 100, 1700, 50);
-            //         foreach (var enemy in spawnEnemies) {
-            //             _listOfEnemies.Add (enemy);
-            //         }
-            //     } else {
-            //         foreach (var enemy in _listOfEnemies) {
-            //             Collection<Bullet> currentBullets = enemy.Fire ();
-            //             if (currentBullets is { Count: >0}){
-            //                 foreach (var bullet in currentBullets) {
-            //                     _listOfBullets.Add (bullet);
-            //                 }
-            //             } else {
-            //                 enemy.move ();
-            //             }
-            //         }
-            //     }
-
-            //     if (_listOfBullets is { Count: > 0}) {
-            //         foreach (var bullet in _listOfBullets) {
-            //             bullet.move ();
-            //         }
-            //     }
-
-            //     // TODO: Add your update logic here
-
-            // }
-            // base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -203,57 +150,6 @@ namespace SpaceInvaders {
             CurrentState.Draw (gameTime, _spriteBatch, this);
             _spriteBatch.End ();
             base.Draw (gameTime);
-
-            // if (_listOfBullets is { Count: > 0}) {
-            //     foreach (var bullet in _listOfBullets) {
-            //         _spriteBatch.Draw (
-            //             bullet.Texture,
-            //             new Rectangle (
-            //                 (int)bullet.x,
-            //                 (int)bullet.y,
-            //                 (int)bullet.width,
-            //                 (int)bullet.height
-            //             ),
-            //             Color.White
-            //         );
-            //     }
-            // }
-
-            // if (_listOfEnemies is { Count: > 0}) {
-            //     foreach (var enemy in _listOfEnemies) {
-            //         _spriteBatch.Draw (
-            //             enemy.Texture,
-            //             new Rectangle (
-            //                 (int)enemy.x,
-            //                 (int)enemy.y,
-            //                 (int)enemy.width,
-            //                 (int)enemy.height
-            //             ),
-            //             Color.White
-            //         );
-            //     }
-            // }
-
-            // _spriteBatch.Draw(
-            //     _player.Texture,                          // Texture2D
-            //     new Rectangle(
-            //         (int)_player.x, 
-            //         (int)_player.y, 
-            //         (int)_player.width, 
-            //         (int)_player.height
-            //     ), 
-            //     Color.White
-            // );
-
-            // if (_pauseScreen.isMenuActive) {
-            //     _pauseScreen.DrawPauseScreen (_spriteBatch);
-            // }
-
-            // _spriteBatch.End();
-
-            // // TODO: Add your drawing code here
-
-            // base.Draw(gameTime);
         }
     }
 }

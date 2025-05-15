@@ -7,51 +7,45 @@ public class RunningState : IGameState
 {
     public void Update(GameTime gameTime, Game1 game) {
         KeyboardState currentState = Keyboard.GetState();
-
-        if (currentState.IsKeyDown(Keys.Right) || currentState.IsKeyDown(Keys.D))
-        {
+        game._player.UpdateGameTime (gameTime);
+        if (currentState.IsKeyDown(Keys.Right) || currentState.IsKeyDown(Keys.D)) {
             game._player.move("right");
-        }
-        else if (currentState.IsKeyDown(Keys.Left) || currentState.IsKeyDown(Keys.A))
-        {
+        } else if (currentState.IsKeyDown(Keys.Left) || currentState.IsKeyDown(Keys.A)) {
             game._player.move("left");
         }
 
-        if (currentState.IsKeyDown(Keys.Space))
-        {
+        if (currentState.IsKeyDown(Keys.Space)) {
             Collection<Bullet> currentBullets = game._player.Fire();
-            if (currentBullets is { Count: > 0 })
-                foreach (var bullet in currentBullets)
+            if (currentBullets is { Count: > 0 }) {
+                foreach (var bullet in currentBullets) {
                     game._listOfBullets.Add(bullet);
+                }
+            }
         }
 
-        if (game._listOfEnemies is { Count: <= 0 })
-        {
+        if (game._listOfEnemies is { Count: <= 0 }) {
             Collection<Enemy> spawnEnemies = EnemyFactory.Instance.CreateRowOfEnemies(10, 100, 1700, 50);
-            foreach (var enemy in spawnEnemies)
+            foreach (var enemy in spawnEnemies) {
                 game._listOfEnemies.Add(enemy);
-        }
-        else
-        {
-            foreach (var enemy in game._listOfEnemies)
-            {
+            }
+        } else {
+            foreach (var enemy in game._listOfEnemies) {
+                enemy.UpdateGameTime (gameTime);
                 Collection<Bullet> currentBullets = enemy.Fire();
-                if (currentBullets is { Count: > 0 })
-                {
-                    foreach (var bullet in currentBullets)
+                if (currentBullets is { Count: > 0 }) {
+                    foreach (var bullet in currentBullets) {
                         game._listOfBullets.Add(bullet);
-                }
-                else
-                {
+                    }
+                } else {
                     enemy.move();
                 }
             }
         }
 
-        if (game._listOfBullets is { Count: > 0 })
-        {
-            foreach (var bullet in game._listOfBullets)
+        if (game._listOfBullets is { Count: > 0 }) {
+            foreach (var bullet in game._listOfBullets) {
                 bullet.move();
+            }
         }
     }
 

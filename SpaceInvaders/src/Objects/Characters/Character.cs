@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 public abstract class Character : DamageableObject, IFire {
@@ -44,4 +45,8 @@ public abstract class Character : DamageableObject, IFire {
     // }
 
     protected abstract bool isValidDirection (string direction);
+
+    public virtual void UpdateGameTime (GameTime gameTime) {
+        weapon.UpdateGameTIme (gameTime);
+    }
 }

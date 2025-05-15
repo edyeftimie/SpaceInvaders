@@ -5,167 +5,223 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace SpaceInvaders;
-
-public class Game1 : Game
-{
-    private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch;
-    private Player _bug;
-    public Collection<Bullet> _listOfBullets;
-    public Collection<Enemy> _listOfEnemies;
-
-    public Game1()
+namespace SpaceInvaders {
+    public class Game1 : Game
     {
-        _graphics = new GraphicsDeviceManager(this);
-        _graphics.IsFullScreen = true;
-        Content.RootDirectory = "Content";
-        IsMouseVisible = true;
-        _listOfBullets = new Collection<Bullet> ();
-    }
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
+        private Player _player;
+        public Collection<Bullet> _listOfBullets;
+        public Collection<Enemy> _listOfEnemies;
+        public Constants constants;
 
-    protected override void Initialize()
-    {
-        // TODO: Add your initialization logic here
-
-        base.Initialize();
-        // bug = GameObject(1,1,10,10,'bug.png');
-    }
-
-    protected override void LoadContent()
-    {
-        _spriteBatch = new SpriteBatch(GraphicsDevice);
-        Texture2D bugTexture = Content.Load<Texture2D>("bug");
-        Texture2D bulletTexture = Content.Load<Texture2D>("bullet");
-
-        // 1920 x 1080
-        BulletFactory.Instance.Initialize (60, 60, bulletTexture, 1);
-
-        BulletStrategyFactory.RegisterStrategy ("straight", () => new StraightBulletStrategy ());
-        BulletStrategyFactory.RegisterStrategy ("diagonal", () => new DiagonalBulletStrategy ());
-        BulletStrategyFactory.RegisterStrategy ("zigzag", () => new ZigZagBulletStrategy (50));
-
-        FireFactory.RegisterStrategy ("single", () => new SingleFireStrategy ());
-        FireFactory.RegisterStrategy ("double", () => new DoubleFireStrategy (60));
-        FireFactory.RegisterStrategy ("triple", () => new TripleFireStrategy (60));
-
-        EnemyFactory.Instance.Initialize (120, 120, bugTexture, 5, 1, 5, 0.4, 2, 1, 3, 10);
-
-        _listOfBullets = new Collection<Bullet> ();
-        _listOfEnemies = new Collection<Enemy> ();
-
-        // Weapon simpleWeapon = new Weapon (0.4, 1000, "single", "straight");
-        // Weapon simpleWeapon = new Weapon (0.4, 1000, "triple", "straight");
-        Weapon simpleWeapon = new Weapon (0.4, 1000, "triple", "straight");
-        _bug = new Player (800,800,200,200, bugTexture, 100, 10, simpleWeapon, 10);
-
-        // TODO: use this.Content to load your game content here
-    }
-
-    protected override void Update(GameTime gameTime)
-    {
-        KeyboardState currentState = Keyboard.GetState();
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || 
-        currentState.IsKeyDown(Keys.Escape))
-            Exit();
-        if (currentState.IsKeyDown (Keys.Right) ||
-        currentState.IsKeyDown(Keys.D)) {
-           _bug.move ("right"); 
-        } else if (currentState.IsKeyDown (Keys.Left) ||
-        currentState.IsKeyDown(Keys.A)) {
-            _bug.move ("left");
-        } 
-
-        if (currentState.IsKeyDown (Keys.Space)) {
-            Collection<Bullet> currentBullets = _bug.Fire();
-            if (currentBullets is { Count: > 0})
-                foreach (var bullet in currentBullets) {
-                    _listOfBullets.Add (bullet);
-                } 
+        public Game1()
+        {
+            _graphics = new GraphicsDeviceManager(this);
+            Content.RootDirectory = "Content";
+            IsMouseVisible = false;
         }
 
-        if (_listOfEnemies is { Count : <= 0}) {
-            Collection<Enemy> spawnEnemies = EnemyFactory.Instance.CreateRowOfEnemies (10, 100, 1700, 50);
-            foreach (var enemy in spawnEnemies) {
-                _listOfEnemies.Add (enemy);
-            }
-        } else {
-            foreach (var enemy in _listOfEnemies) {
-                Collection<Bullet> currentBullets = enemy.Fire ();
-                if (currentBullets is { Count: >0}){
+        protected override void Initialize()
+        {
+            Logger.Initialize (null, false, true, false);
+            Logger.Log ("Game is initializing");
+
+            _graphics.IsFullScreen = true;
+            _graphics.ApplyChanges ();
+
+            int screenWidth = GraphicsDevice.DisplayMode.Width;
+            int screenHeight = GraphicsDevice.DisplayMode.Height;
+            constants = new Constants (screenWidth, screenHeight);
+
+            Window.Title = $"SpaceInvaders++ ({constants.screenWidth}x{constants.screenHeight})";
+
+            base.Initialize();
+        }
+
+        protected override void LoadContent()
+        {
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            Texture2D bugTexture = Content.Load<Texture2D>("bug");
+            Texture2D bulletTexture = Content.Load<Texture2D>("bullet");
+
+            BulletFactory.Instance.Initialize (
+                constants.bulletWidth,
+                constants.bulletHeight, 
+                bulletTexture,
+                constants.bulletHealth
+            );
+
+            BulletStrategyFactory.RegisterStrategy (
+                "straight",
+                () => new StraightBulletStrategy ()
+            );
+            BulletStrategyFactory.RegisterStrategy (
+                "diagonal", 
+                () => new DiagonalBulletStrategy (constants.diagonalStrategyCoefficient)
+            );
+            BulletStrategyFactory.RegisterStrategy (
+                "zigzag",
+                () => new ZigZagBulletStrategy (constants.zigzagStrategySwitchFrame)
+            );
+
+            FireFactory.RegisterStrategy (
+                "single",
+                () => new SingleFireStrategy ()
+            );
+            FireFactory.RegisterStrategy (
+                "double",
+                () => new DoubleFireStrategy (constants.spaceBetweenBullets)
+            );
+            FireFactory.RegisterStrategy (
+                "triple",
+                () => new TripleFireStrategy (constants.spaceBetweenBullets)
+            );
+
+            // EnemyFactory.Instance.Initialize (constants.ENEMY_WIDTH, constants.ENEMY_HEIGHT, bugTexture, 5, 1, 5, 0.4, 2, 1, 3, 10);
+            EnemyFactory.Instance.Initialize (
+                constants.enemyWidth,
+                constants.enemyHeight,
+                bugTexture,
+                constants.enemyHealth,
+                constants.enemyStartDamageInterval,
+                constants.enemyEndDamageInterval,
+                constants.enemyStartCooldownInterval,
+                constants.enemyEndCooldownInterval,
+                constants.enemyStartMovementSpeedInterval,
+                constants.enemyEndMovementSpeedInterval,
+                constants.enemyAmmo
+            );
+
+            _listOfBullets = new Collection<Bullet> ();
+            _listOfEnemies = new Collection<Enemy> ();
+
+            // Weapon simpleWeapon = new Weapon (0.4, 1000, "single", "straight");
+            // Weapon simpleWeapon = new Weapon (0.4, 1000, "triple", "straight");
+            Weapon simpleWeapon = new Weapon (
+                constants.weaponCooldown,
+                constants.weaponAmmo,
+                "triple", 
+                "straight");
+            _player = new Player (
+                constants.playerDefaultX,
+                constants.playerDefaultY,
+                constants.playerWidth,
+                constants.playerHeight, 
+                bugTexture, 
+                constants.playerHealth,
+                constants.playerDamage,
+                simpleWeapon,
+                constants.playerMovementSpeed);
+
+            // TODO: use this.Content to load your game content here
+        }
+
+        protected override void Update(GameTime gameTime)
+        {
+            KeyboardState currentState = Keyboard.GetState();
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || 
+            currentState.IsKeyDown(Keys.Escape))
+                Exit();
+            if (currentState.IsKeyDown (Keys.Right) ||
+            currentState.IsKeyDown(Keys.D)) {
+            _player.move ("right"); 
+            } else if (currentState.IsKeyDown (Keys.Left) ||
+            currentState.IsKeyDown(Keys.A)) {
+                _player.move ("left");
+            } 
+
+            if (currentState.IsKeyDown (Keys.Space)) {
+                Collection<Bullet> currentBullets = _player.Fire();
+                if (currentBullets is { Count: > 0})
                     foreach (var bullet in currentBullets) {
                         _listOfBullets.Add (bullet);
+                    } 
+            }
+
+            if (_listOfEnemies is { Count : <= 0}) {
+                Collection<Enemy> spawnEnemies = EnemyFactory.Instance.CreateRowOfEnemies (10, 100, 1700, 50);
+                foreach (var enemy in spawnEnemies) {
+                    _listOfEnemies.Add (enemy);
+                }
+            } else {
+                foreach (var enemy in _listOfEnemies) {
+                    Collection<Bullet> currentBullets = enemy.Fire ();
+                    if (currentBullets is { Count: >0}){
+                        foreach (var bullet in currentBullets) {
+                            _listOfBullets.Add (bullet);
+                        }
+                    } else {
+                        enemy.move ();
                     }
-                } else {
-                    enemy.move ();
                 }
             }
-        }
 
-        if (_listOfBullets is { Count: > 0}) {
-            foreach (var bullet in _listOfBullets) {
-                bullet.move ();
+            if (_listOfBullets is { Count: > 0}) {
+                foreach (var bullet in _listOfBullets) {
+                    bullet.move ();
+                }
             }
+
+            // TODO: Add your update logic here
+
+            base.Update(gameTime);
         }
 
-        // TODO: Add your update logic here
+        protected override void Draw(GameTime gameTime)
+        {
+            // GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Bisque);
+            // GraphicsDevice.Clear(Color.Black);
+            _spriteBatch.Begin();
 
-        base.Update(gameTime);
-    }
+            // Draw the bug
+            _spriteBatch.Draw(
+                _player.Texture,                          // Texture2D
+                new Rectangle(
+                    (int)_player.x, 
+                    (int)_player.y, 
+                    (int)_player.width, 
+                    (int)_player.height
+                ), 
+                Color.White
+            );
 
-    protected override void Draw(GameTime gameTime)
-    {
-        // GraphicsDevice.Clear(Color.CornflowerBlue);
-        GraphicsDevice.Clear(Color.Bisque);
-        // GraphicsDevice.Clear(Color.Black);
-        _spriteBatch.Begin();
-
-        // Draw the bug
-        _spriteBatch.Draw(
-            _bug.Texture,                          // Texture2D
-            new Rectangle(
-                (int)_bug.x, 
-                (int)_bug.y, 
-                (int)_bug.width, 
-                (int)_bug.height
-            ), 
-            Color.White
-        );
-
-        if (_listOfBullets is { Count: > 0}) {
-            foreach (var bullet in _listOfBullets) {
-                _spriteBatch.Draw (
-                    bullet.Texture,
-                    new Rectangle (
-                        (int)bullet.x,
-                        (int)bullet.y,
-                        (int)bullet.width,
-                        (int)bullet.height
-                    ),
-                    Color.White
-                );
+            if (_listOfBullets is { Count: > 0}) {
+                foreach (var bullet in _listOfBullets) {
+                    _spriteBatch.Draw (
+                        bullet.Texture,
+                        new Rectangle (
+                            (int)bullet.x,
+                            (int)bullet.y,
+                            (int)bullet.width,
+                            (int)bullet.height
+                        ),
+                        Color.White
+                    );
+                }
             }
-        }
 
-        if (_listOfEnemies is { Count: > 0}) {
-            foreach (var enemy in _listOfEnemies) {
-                _spriteBatch.Draw (
-                    enemy.Texture,
-                    new Rectangle (
-                        (int)enemy.x,
-                        (int)enemy.y,
-                        (int)enemy.width,
-                        (int)enemy.height
-                    ),
-                    Color.White
-                );
+            if (_listOfEnemies is { Count: > 0}) {
+                foreach (var enemy in _listOfEnemies) {
+                    _spriteBatch.Draw (
+                        enemy.Texture,
+                        new Rectangle (
+                            (int)enemy.x,
+                            (int)enemy.y,
+                            (int)enemy.width,
+                            (int)enemy.height
+                        ),
+                        Color.White
+                    );
+                }
             }
+
+            _spriteBatch.End();
+
+            // TODO: Add your drawing code here
+
+            base.Draw(gameTime);
         }
-
-        _spriteBatch.End();
-
-        // TODO: Add your drawing code here
-
-        base.Draw(gameTime);
     }
 }

@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework.Graphics;
 
 public class Player : Character {
-    public Player(int x, int y, int width, int height, Texture2D Texture, int health, int damage, Weapon weapon, float movementSpeed)
+    public Player(int x, int y, int width, int height, Texture2D Texture, int health, int damage, Weapon weapon, double movementSpeed)
     : base(x, y, width, height, Texture, health, damage, weapon, movementSpeed)
     {
         // this.weapon = weapon;

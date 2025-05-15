@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework.Graphics;
 
 public class Enemy : Character {
-    public Enemy(int x, int y, int width, int height, Texture2D Texture, int health, int damage, Weapon weapon, float movementSpeed)
+    public Enemy(int x, int y, int width, int height, Texture2D Texture, int health, int damage, Weapon weapon, double movementSpeed)
     : base(x, y, width, height, Texture, health, damage, weapon, movementSpeed) {
         // shootingDirection = "down";
     }

@@ -4,11 +4,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 public abstract class Character : DamageableObject, IFire {
     public Weapon weapon {get; set;}
-    protected float movementSpeed {get; set;}
+    protected double movementSpeed {get; set;}
 
     // public required string shootingDirection {get; set;}
 
-    protected Character(int x, int y, int width, int height, Texture2D Texture, int health, int damage, Weapon weapon, float movementSpeed)
+    protected Character(int x, int y, int width, int height, Texture2D Texture, int health, int damage, Weapon weapon, double movementSpeed)
     : base(x, y, width, height, Texture, health, damage)
     {
         this.weapon = weapon;

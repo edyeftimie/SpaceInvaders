@@ -13,8 +13,8 @@ public class EnemyFactory {
     private int _endDamageInterval;
     private double _startCooldownInterval;
     private double _endCooldownInterval;
-    private int _startMovementSpeed;
-    private int _endMovementSpeed;
+    private double _startMovementSpeed;
+    private double _endMovementSpeed;
     private int _ammo;
 
 
@@ -27,8 +27,8 @@ public class EnemyFactory {
         int endDamageInterval,
         double startCooldownInterval,
         double endCooldownInterval,
-        int startMovementSpeed,
-        int endMovementSpeed,
+        double startMovementSpeed,
+        double endMovementSpeed,
         int ammo) {
         _width = width;
         _height = height;
@@ -43,7 +43,7 @@ public class EnemyFactory {
         _ammo = ammo;
     }
 
-    public Enemy CreateEnemy (int x, int y, int damage, Weapon weapon, int movementSpeed) {
+    public Enemy CreateEnemy (int x, int y, int damage, Weapon weapon, double movementSpeed) {
         return new Enemy (x, y, _width, _height, _Texture, _health, damage, weapon, movementSpeed);
     }
 
@@ -60,8 +60,8 @@ public class EnemyFactory {
         return GetValueBetween ((int)(_startCooldownInterval*10), (int)(_endCooldownInterval*10))/10.0;
     }
 
-    public int GetMovement () {
-        return GetValueBetween (_startMovementSpeed, _endMovementSpeed);
+    public double GetMovement () {
+        return GetValueBetween ((int)(_startMovementSpeed*10), (int)(_endMovementSpeed*10))/10.0;
     }
 
     public Collection<Enemy> CreateRowOfEnemies (int y, int startX, int endX, int spacing) {

@@ -14,7 +14,7 @@ public class Weapon {
     IFireStrategy fireStrategy;
     string bulletStrategyType;
 
-    public Weapon (double cooldown, int ammo, string fireStrategyType, string bulletStrategyType) {
+    public Weapon (double cooldown, int ammo, string fireStrategyType = "single", string bulletStrategyType = "straight") {
         this.cooldown = cooldown;
         this.ammo = ammo;
         IFireStrategy? fireStrategy = FireFactory.GetStrategy (fireStrategyType);

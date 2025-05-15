@@ -113,7 +113,8 @@ namespace SpaceInvaders {
                 _constants.enemyEndCooldownInterval,
                 _constants.enemyStartMovementSpeedInterval,
                 _constants.enemyEndMovementSpeedInterval,
-                _constants.enemyAmmo
+                _constants.enemyAmmo,
+                _constants.rarityRateOfNewStrategies
             );
 
             Weapon simpleWeapon = new Weapon (

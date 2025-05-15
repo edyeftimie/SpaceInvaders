@@ -9,6 +9,11 @@ namespace SpaceInvaders {
         private int _defaultScreenHeight {get; set;} = 1080;
         public int screenWidth {get; private set;}
         public int screenHeight {get; private set;}
+        public int pauseScreenWidth {get; private set;} = 500;
+        public int pauseScreenHeight {get; private set;} = 300;
+        public int pauseScreenX {get; private set;}
+        public int pauseScreenY {get; private set;}
+        public double pauseCooldown {get;} = 0.4;
         public int playerDefaultX {get; } = 800;
         public int playerDefaultY {get; } = 800;
         public int playerWidth {get; private set;} = 200;
@@ -60,6 +65,9 @@ namespace SpaceInvaders {
             Logger.Log ("playerX: " + playerDefaultX);
             playerDefaultY = screenHeight - playerHeight;
             Logger.Log ("playerX: " + playerDefaultY);
+
+            pauseScreenX = screenWidth/2 - pauseScreenWidth/2;
+            pauseScreenY = screenHeight/2 - pauseScreenHeight/2;
         }
     }
 }

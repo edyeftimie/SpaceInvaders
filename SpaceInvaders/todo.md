@@ -5,3 +5,8 @@ despawn the entities that exit the area
 collision box
 change speeds for characters to double instead of int, make the bots move slower
 spawn the player on the middle of the ox axis of the screen
+
+
+<!-- mgcb-editor Content/Content.mgcb
+mgcb -@:"Content/Content.mgcb" /outputDir:Content/bin -->
+dotnet mgcb -@:"Content/Content.mgcb" /outputDir:Content/bin

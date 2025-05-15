@@ -5,8 +5,12 @@
   <Config />
   <SourceFiles>
     <File>/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/bug.png</File>
+    <File>/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/bullet.png</File>
+    <File>/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/Fonts/GameFont.spritefont</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>

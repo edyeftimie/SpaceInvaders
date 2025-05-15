@@ -2,8 +2,8 @@
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <SourceFile>/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/bug.png</SourceFile>
   <SourceTime>2025-04-21T16:27:06.7252203+03:00</SourceTime>
-  <DestFile>/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/bin/DesktopGL/Content/bug.xnb</DestFile>
-  <DestTime>2025-04-21T16:58:59.467193+03:00</DestTime>
+  <DestFile>/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/bin/Content/bug.xnb</DestFile>
+  <DestTime>2025-05-15T05:34:29.2555514+03:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2025-04-05T13:10:54+03:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

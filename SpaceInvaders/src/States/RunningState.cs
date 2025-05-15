@@ -25,13 +25,25 @@ public class RunningState : IGameState
 
         if (game._destroyableObjects is { Count: > 0}) {
             foreach (var gameObject in game._destroyableObjects) {
-                gameObject.destroyEntity ();
-                if (gameObject is Enemy enemy) {
-                    Logger.Log("destroy enemy is "+game._listOfEnemies.Remove (enemy));
-                } else if (gameObject is Bullet bullet) {
-                    Logger.Log("destrooy bullet is "+game._listOfBullets.Remove (bullet));
+                gameObject.destroyEntity();
+                if (gameObject is Enemy enemy)
+                {
+                    bool removed = game._listOfEnemies.Remove(enemy);
+                    if (!removed)
+                    {
+                        Logger.Warning("Enemy not found in _listOfEnemies: " + enemy);
+                    }
+                }
+                else if (gameObject is Bullet bullet)
+                {
+                    bool removed = game._listOfBullets.Remove(bullet);
+                    if (!removed)
+                    {
+                         Logger.Warning("Bullet not found in _listOfBullets: " + bullet);
+                    }
                 }
             }
+            game._destroyableObjects = new Collection<DamageableObject> ();
         }
 
         if (game._listOfEnemies is { Count: <= 0 })

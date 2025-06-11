@@ -62,6 +62,9 @@ namespace SpaceInvaders {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             Texture2D bugTexture = Content.Load<Texture2D>("bug");
             Texture2D bulletTexture = Content.Load<Texture2D>("bullet");
+            Texture2D reverseBulletTexture = Content.Load<Texture2D>("reverse_bullet");
+            Texture2D bloodTexture = Content.Load<Texture2D>("drop");
+            Texture2D enemyTexture = Content.Load<Texture2D>("enemy");
 
             Texture2D rectangleTexture = new Texture2D (GraphicsDevice, 1, 1);
             rectangleTexture.SetData([Color.White]);
@@ -72,6 +75,7 @@ namespace SpaceInvaders {
                 _constants.bulletWidth,
                 _constants.bulletHeight, 
                 bulletTexture,
+                bloodTexture, 
                 _constants.bulletHealth
             );
 
@@ -105,7 +109,7 @@ namespace SpaceInvaders {
             EnemyFactory.Instance.Initialize (
                 _constants.enemyWidth,
                 _constants.enemyHeight,
-                bugTexture,
+                enemyTexture,
                 _constants.enemyHealth,
                 _constants.enemyStartDamageInterval,
                 _constants.enemyEndDamageInterval,
@@ -152,6 +156,12 @@ namespace SpaceInvaders {
                     CurrentState = CurrentState == _runningState ? _pausedState : _runningState;
                     Logger.Log ("Game1.Update: The game switched its state!");
                 }
+            }
+
+            if (_player.isDestroyed)
+            {
+                Logger.Log("Game.Update Game Over!");
+                Exit();
             }
             CurrentState.Update (gameTime, this);
             base.Update (gameTime);

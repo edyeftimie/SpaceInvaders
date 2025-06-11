@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <SourceFile>/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/bullet.png</SourceFile>
-  <SourceTime>2025-05-10T00:23:24.7317946+03:00</SourceTime>
+  <SourceTime>2025-05-16T23:43:52.0170355+03:00</SourceTime>
   <DestFile>/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/bin/DesktopGL/Content/bullet.xnb</DestFile>
-  <DestTime>2025-05-10T00:31:38.933158+03:00</DestTime>
+  <DestTime>2025-05-16T23:44:16.6013946+03:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2025-04-05T13:10:54+03:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

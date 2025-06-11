@@ -24,17 +24,17 @@ public class Weapon {
             this.fireStrategy = new SingleFireStrategy ();
         this.bulletStrategyType = bulletStrategyType;
         // this._lastTimeWhereTheUserShooted = null;
-        this._currentCooldownProgress = 0f;
+        _currentCooldownProgress = 0f;
     }
 
     public Weapon (double cooldown, int ammo) {
         this.cooldown = cooldown;
         this.ammo = ammo;
         // this._lastTimeWhereTheUserShooted = DateTime.Now;
-        this._currentCooldownProgress = 0f;
+        _currentCooldownProgress = 0f;
 
-        this.bulletStrategyType = "straight";
-        String fireStrategyType = "single";
+        bulletStrategyType = "straight";
+        string fireStrategyType = "single";
 
         IFireStrategy? fireStrategy = FireFactory.GetStrategy (fireStrategyType);
         if (fireStrategy != null)

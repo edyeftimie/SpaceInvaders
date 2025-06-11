@@ -16,6 +16,9 @@
 /processor:TextureProcessor
 /build:bug.png
 /build:bullet.png
+/build:drop.png
+/build:enemy.png
+/build:reverse_bullet.png
 
 #begin Fonts/GameFont.spritefont
 /importer:FontDescriptionImporter

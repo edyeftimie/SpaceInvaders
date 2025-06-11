@@ -1,3 +1,7 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/bug.png","/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/bin/DesktopGL/Content/bug.xnb","TextureProcessor","Texture2DContent",114456,1000085,0.1685433
-"/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/Fonts/GameFont.spritefont","/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/bin/Content/Fonts/GameFont.xnb","FontDescriptionProcessor","SpriteFontContent",474,37913,3.097286
+"/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/bug.png","/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/bin/Content/bug.xnb","TextureProcessor","Texture2DContent",91174,342709,0.1304147
+"/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/bullet.png","/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/bin/Content/bullet.xnb","TextureProcessor","Texture2DContent",13970,50005,0.0033613
+"/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/drop.png","/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/bin/Content/drop.xnb","TextureProcessor","Texture2DContent",12874,262229,0.1248989
+"/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/enemy.png","/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/bin/Content/enemy.xnb","TextureProcessor","Texture2DContent",18244,262229,0.0149827
+"/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/Fonts/GameFont.spritefont","/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/bin/Content/Fonts/GameFont.xnb","FontDescriptionProcessor","SpriteFontContent",474,136217,0.097216
+"/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/reverse_bullet.png","/home/eduh/Documents/SpaceInvaders/SpaceInvaders/Content/bin/Content/reverse_bullet.xnb","TextureProcessor","Texture2DContent",16695,168185,0.1209151
